@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  node:
+    tty: true
+    build: .
+    ports:
+      - "1337:1337"
+    volumes:
+      - ./config:/opt/app/config
+      - ./src:/opt/app/src
+      - ./test:/opt/app/test
+      - ./index.js:/opt/app/index.js
+    depends_on:
+      - postgresql
+
+  postgresql:
+    image: postgres:11-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: instabook
