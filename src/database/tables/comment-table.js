@@ -33,11 +33,13 @@ const createRow = async data => (await database.query(SQL`
     *;
 `))[0] || null;
 
-const getRows = () => database.query(`
+const getRows = (id) => database.query(`
   SELECT
     *
   FROM
-    comments;
+    comments
+  WHERE 
+      post_id=${id};
 `);
 
 const getRow = async (id) => (await database.query(SQL`

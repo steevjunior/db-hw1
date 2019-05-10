@@ -10,7 +10,8 @@ const commentRouter = express.Router();
 // Get all comments
 commentRouter.get('/',async (req, res,next) => {
     try {
-      const comments = await commentTable.getRows();
+       const id =req.baseUrl.split("/")[3]
+      const comments = await commentTable.getRows(id);
       return res.json(comments); 
     } catch (err) {
       return next(err);
@@ -29,9 +30,9 @@ commentRouter.post('/', async(req, res,next) => {
 });
 
 // Get one specific post by id
-commentRouter.get('/:id', async(req,res,next) => {
+commentRouter.get('/:commentid', async(req,res,next) => {
     try{
-        const comment = await commentTable.getRow(req.params.id);
+        const comment = await commentTable.getRow(req.params.commentid);
         return res.json(comment)
     }
     catch(err){
@@ -43,9 +44,9 @@ commentRouter.get('/:id', async(req,res,next) => {
 
 
 // Modify one specific post by id
-commentRouter.put('/:id', async(req, res,next) => {
+commentRouter.put('/:commentid', async(req, res,next) => {
     try{
-        const comment = await commentTable.updateRow(req.params.id,req.body);
+        const comment = await commentTable.updateRow(req.params.commentid,req.body);
         return res.json(comment)
 
     }catch(err){
@@ -55,9 +56,9 @@ commentRouter.put('/:id', async(req, res,next) => {
 
 
 // Delete one specific post by id
-commentRouter.delete('/:id', async(req, res,next) => {
+commentRouter.delete('/:commentid', async(req, res,next) => {
     try{
-        const comment = await commentTable.deleteRow(req.params.id);
+        const comment = await commentTable.deleteRow(req.params.commentid);
         return res.json(comment);
     }catch(err){
         return next(err)
