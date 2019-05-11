@@ -3,6 +3,7 @@
 // Import the Express server module
 const express = require('express');
 const commentTable = require('../../database/tables/comment-table');
+const postTable = require('../../database/tables/post-table');
 
 // Create our router for our comments API
 const commentRouter = express.Router();
@@ -21,7 +22,10 @@ commentRouter.get('/',async (req, res,next) => {
 // Create a comment
 commentRouter.post('/', async(req, res,next) => {
     try{
-        const comment = await commentTable.createRow(req.body);
+        const postid =req.baseUrl.split("/")[3]
+        const user = await postTable.getRow(postid)
+        const userid = user.user_id
+        const comment = await commentTable.createRow(req.body,userid,postid);
         return res.json(comment);
 
     }catch(err){

@@ -15,7 +15,7 @@ const createTable = () => {
     );
 `);}
 
-const createRow = async data => (await database.query(SQL`
+const createRow = async (data,userid,postid) => (await database.query(SQL`
   INSERT INTO
   comments
     (
@@ -26,8 +26,8 @@ const createRow = async data => (await database.query(SQL`
   VALUES
     (
       ${data.content},
-      ${data.user_id},
-      ${data.post_id}
+      ${userid},
+      ${postid}
     )
   RETURNING
     *;
